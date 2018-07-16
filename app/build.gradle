@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
+        vectorDrawables.useSupportLibrary=true
         applicationId "com.example.bision"
         minSdkVersion 15
         targetSdkVersion 26
@@ -29,4 +30,5 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
 }
