@@ -65,7 +65,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:clickable="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.291"
         app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -75,8 +74,7 @@
             android:id="@+id/deadline_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:clickable="false">
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/deadline1"
