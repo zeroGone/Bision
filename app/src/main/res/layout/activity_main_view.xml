@@ -6,21 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.bision.MainView">
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="20dp" />
-
-    <Button
-        android:id="@+id/menuButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="메뉴"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/main_dogs"
         android:layout_width="77dp"
@@ -34,19 +19,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/menuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="메뉴"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
     <EditText
         android:id="@+id/searchBar"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="text"
         android:text="검색"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.593"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_dogs" />
+        app:layout_constraintTop_toBottomOf="@id/main_dogs" />
 
     <TextView
         android:id="@+id/deadline_intro"
@@ -95,11 +95,13 @@
                     android:layout_height="wrap_content"
                     android:text="이름1" />
 
-                <ImageView
-                    android:id="@+id/deadline1_image"
+                <Button
+                    android:id="@+id/deadline1_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_launcher_background" />
+                    android:layout_weight="1"
+                    android:text="그림" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -125,6 +127,7 @@
                     android:id="@+id/deadline2_image"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
                     app:srcCompat="@drawable/ic_launcher_background" />
             </LinearLayout>
 
@@ -133,6 +136,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
+                android:clickable="true"
                 android:orientation="vertical">
 
                 <TextView
@@ -349,6 +353,46 @@
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/deadline_scroll" />
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/menu_draw"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/menuButton">
+
+        <LinearLayout
+            android:id="@+id/draw_draw"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/menu_notice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="공지사항"
+                android:textSize="40sp" />
+
+            <TextView
+                android:id="@+id/menu_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="고객센터/도움말"
+                android:textSize="40sp" />
+
+            <TextView
+                android:id="@+id/menu_preferences"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="환경설정"
+                android:textSize="40sp" />
+        </LinearLayout>
+
+    </android.support.v4.widget.DrawerLayout>
 
 
 </android.support.constraint.ConstraintLayout>
