@@ -1,4 +1,4 @@
-package com.example.bision;
+package motoroi.bision;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

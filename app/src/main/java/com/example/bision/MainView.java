@@ -55,7 +55,13 @@ public class MainView extends AppCompatActivity {
         });
         drawer = (DrawerLayout) findViewById(R.id.menu_draw);
         drawer.requestDisallowInterceptTouchEvent(true);
-        menu_button=(Button)findViewById(R.id.menuButton);
+        drawer.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return false;
+            }
+        });
+        menu_button = (Button) findViewById(R.id.menuButton);
         menu_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
