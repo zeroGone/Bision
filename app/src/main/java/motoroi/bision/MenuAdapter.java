@@ -1,6 +1,8 @@
 package motoroi.bision;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.view.*;
 import android.widget.*;
 import java.util.ArrayList;
@@ -39,6 +41,24 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         }
         TextView childName = (TextView)convertView.findViewById(R.id.menu_child);
         childName.setText(DataList.get(groupPosition).child.get(childPosition));
+        if(DataList.get(groupPosition).child.get(childPosition).toString().equals("1:1문의하기")){
+            childName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context.getApplicationContext(),MainIntro.class);
+                    context.startActivity(intent);
+                }
+            });
+        };
+        if(DataList.get(groupPosition).child.get(childPosition).toString().equals("도움말")){
+            childName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context.getApplicationContext(),Masterpeice.class);
+                    context.startActivity(intent);
+                }
+            });
+        };
         return convertView;
     }
     @Override
