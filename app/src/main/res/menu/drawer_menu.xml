@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showln="nav_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_notice"
+            android:icon="@drawable/ic_notice"
+            android:title="공지사항">
+        </item>
+        <item
+            android:id="@+id/menu_help"
+            android:icon="@drawable/ic_help"
+            android:title="도움말">
+        </item>
+        <item
+            android:id="@+id/menu_question"
+            android:icon="@drawable/ic_question_answer"
+            android:title="1:1문의">
+        </item>
+        <item
+            android:id="@+id/menu_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="환경설정">
+        </item>
+    </group>
+</menu>
