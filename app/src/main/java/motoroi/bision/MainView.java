@@ -11,8 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
 
 public class MainView extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DrawerLayout drawer;
@@ -32,6 +30,8 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
         toggle.syncState();
 
         NavigationView navView = findViewById(R.id.nav_view);
+        navView.getMenu().findItem(R.id.menu_settings_sound).setActionView(R.layout.nav_settings);
+        navView.getMenu().findItem(R.id.menu_settings_vibration).setActionView(R.layout.nav_settings);
         navView.setNavigationItemSelectedListener(this);
 
         if(savedInstanceState==null) {
@@ -56,10 +56,14 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
     public boolean onNavigationItemSelected(@NonNull MenuItem item){
         switch (item.getItemId()){
             case R.id.menu_question:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new helpFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new QuestionFragment()).commit();
+                break;
+            case R.id.menu_notice:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new NoticeFragment()).commit();
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 
