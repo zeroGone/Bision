@@ -62,7 +62,8 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
                 getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new NoticeFragment()).commit();
                 break;
         }
-        drawer.closeDrawer(GravityCompat.START);
+        if(item.getItemId()==R.id.menu_settings_sound||item.getItemId()==R.id.menu_settings_vibration);
+        else drawer.closeDrawer(GravityCompat.START);
 
         return true;
     }
