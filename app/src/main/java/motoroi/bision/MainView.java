@@ -1,5 +1,6 @@
 package motoroi.bision;
 
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class MainView extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DrawerLayout drawer;
@@ -19,9 +21,11 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_view);
-
+        TextView title = findViewById(R.id.toolbar_title);
+        title.setPaintFlags(Paint.FAKE_BOLD_TEXT_FLAG);//제목 굵게 해주는 메소드
         Toolbar toolbar =findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         drawer =findViewById(R.id.drawer_layout);
 

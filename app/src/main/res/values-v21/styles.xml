@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:textViewStyle">@style/FontTextView</item>
+        <item name="android:actionBarStyle">@style/FontToolbar</item>
     </style>
-
+    <style name="FontTextView" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name ="android:fontFamily">@font/sdswagger</item>
+    </style>
+    <style name="FontToolbar" parent="@android:style/Widget.DeviceDefault.ActionBar">
+        <item name ="android:fontFamily">@font/sdswagger</item>
+    </style>
 </resources>
