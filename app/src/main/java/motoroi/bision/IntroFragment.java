@@ -60,20 +60,20 @@ public class IntroFragment extends Fragment {
         subject=viewGroup.findViewById(R.id.intro_subject);
         masterpeice=viewGroup.findViewById(R.id.intro_masterpeice);
 
-        db.collection("sungkonghoi university").document("skhu").collection("intro").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot doc = task.getResult().getDocuments().get(0);
-                    name.setText(doc.get("name").toString());
-                    place.setText(doc.get("place").toString());
-                    masterpeice.setText(doc.get("masterpeice").toString());
-                    subject.setText(doc.get("subject").toString());
-                    price.setText(doc.get("price").toString()+"원");
-                    term.setText(doc.get("term").toString());
-                }else enterButton.setText("서버 오류");
-            }
-        });
+//        db.collection("sungkonghoi university").document("skhu").collection("intro").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if(task.isSuccessful()){
+//                    DocumentSnapshot doc = task.getResult().getDocuments().get(0);
+//                    name.setText(doc.get("name").toString());
+//                    place.setText(doc.get("place").toString());
+//                    masterpeice.setText(doc.get("masterpeice").toString());
+//                    subject.setText(doc.get("subject").toString());
+//                    price.setText(doc.get("price").toString()+"원");
+//                    term.setText(doc.get("term").toString());
+//                }else enterButton.setText("서버 오류");
+//            }
+//        });
 
         return viewGroup;
     }
