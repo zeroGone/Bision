@@ -7,9 +7,9 @@
         <item name="android:actionBarStyle">@style/FontToolbar</item>
     </style>
     <style name="FontTextView" parent="@android:style/TextAppearance.Widget.TextView">
-        <item name ="android:fontFamily">@font/maplestory</item>
+        <item name ="android:fontFamily">@font/ttf</item>
     </style>
     <style name="FontToolbar" parent="@android:style/Widget.DeviceDefault.ActionBar">
-        <item name ="android:fontFamily">@font/maplestory</item>
+        <item name ="android:fontFamily">@font/ttf</item>
     </style>
 </resources>
