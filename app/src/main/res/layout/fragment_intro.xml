@@ -11,135 +11,49 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/main_intro"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="50dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/enterButton"
+            android:layout_height="0dp"
+            android:layout_margin="36dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/enterButton">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/intro_image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/intro_name"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="전시회이름" />
+            <TextView
+                android:id="@+id/intro_term"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/intro_place"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/intro_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/intro_subject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="프로젝트는 과연 성공할것인가" />
+
+            <TextView
+                android:id="@+id/intro_masterpeice"
+                android:layout_width="match_parent"
                 android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/intro_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="전시회이름" />
-
-                    <ImageView
-                        android:id="@+id/imageView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        app:srcCompat="@mipmap/ic_launcher_round" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="기간" />
-
-                    <TextView
-                        android:id="@+id/intro_term"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="~광복절까지" />
-
-                    <TextView
-                        android:id="@+id/textView10"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="장소" />
-
-                    <TextView
-                        android:id="@+id/intro_place"
-                        android:layout_width="match_parent"
-                        android:layout_height="66dp"
-                        android:layout_weight="2"
-                        android:text="학교" />
-
-                    <TextView
-                        android:id="@+id/textView8"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="가격" />
-
-                    <TextView
-                        android:id="@+id/intro_price"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="2137891795878원" />
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="주제" />
-
-                <TextView
-                    android:id="@+id/intro_subject"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="프로젝트는 과연 성공할것인가" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="대표작" />
-
-                <TextView
-                    android:id="@+id/intro_masterpeice"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="모토로이" />
-            </LinearLayout>
+                android:text="모토로이" />
         </LinearLayout>
 
         <Button

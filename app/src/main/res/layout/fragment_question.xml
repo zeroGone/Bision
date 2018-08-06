@@ -8,11 +8,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/question_title"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
         <LinearLayout
             android:id="@+id/checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="120dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -22,13 +31,13 @@
                 android:id="@+id/checkBox1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="어플 사용" />
+                android:text="어플사용 문의" />
 
             <CheckBox
                 android:id="@+id/checkBox2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="유형1"/>
+                android:text="건의사항"/>
 
             <CheckBox
                 android:id="@+id/checkBox3"
@@ -47,7 +56,7 @@
             android:layout_width="300dp"
             android:layout_height="350dp"
             android:orientation="vertical"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@id/checkbox"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -58,32 +67,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
+                android:fontFamily="@font/font2"
                 android:text="제목" />
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/question_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="너무어렵다" />
+                android:inputType="text"
+                android:hint="너무어렵다" />
 
             <TextView
                 android:id="@+id/textView14"
+                android:fontFamily="@font/font2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:text="내용" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/question_contents"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="죽을것같군" />
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:scrollbars="vertical"
+                android:hint="죽을것같군" />
         </LinearLayout>
 
         <Button
