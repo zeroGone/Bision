@@ -34,7 +34,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:text="공지사항"
-                    android:fontFamily="@font/bmhanna_11yrs_ttf"
                     android:textSize="30sp" />
 
                 <TextView
@@ -43,7 +42,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textSize="18sp"
-                    android:fontFamily="@font/font2"
                     android:textStyle="italic"
                     android:gravity="center_horizontal"/>
             </LinearLayout>
