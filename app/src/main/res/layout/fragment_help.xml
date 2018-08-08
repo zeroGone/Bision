@@ -10,9 +10,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=" 도 움 말 "
-            android:fontFamily="@font/bmhanna_11yrs_ttf"
+            android:fontFamily="@font/maplestory"
             android:gravity="center_horizontal"
-            android:textSize="50dp"/>
+            android:textSize="40sp"/>
 
         <view
             android:layout_width="match_parent"

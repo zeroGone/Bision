@@ -1,5 +1,11 @@
 package motoroi.bision;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +18,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Window;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -41,6 +49,7 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
     protected ArrayList<Map<Object,Object>> getAllIntrolist(){
         return allintrolist;
     }
+    private Dialog loadingDialog;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +67,6 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
         navView.getMenu().findItem(R.id.menu_settings_sound).setActionView(R.layout.nav_settings);
         navView.getMenu().findItem(R.id.menu_settings_vibration).setActionView(R.layout.nav_settings);
         navView.setNavigationItemSelectedListener(this);
-
         db= FirebaseFirestore.getInstance();
         db.collection("Bision").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -111,6 +119,7 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
 
             }
         });
+
     }
 
     @Override
@@ -170,5 +179,21 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
         rank++;
         map.put("ranking",rank);
         db.collection("Bision").document(docName).update("intro",map);
+    }
+
+    public void loadingOn(Activity activity){
+        loadingDialog = new Dialog(activity);
+        loadingDialog .getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        loadingDialog .requestWindowFeature(Window.FEATURE_NO_TITLE);
+        loadingDialog .setContentView(R.layout.loading_dialog);
+        ImageView aniView = (ImageView)loadingDialog.findViewById(R.id.loadingView);
+        aniView.setBackgroundResource(R.drawable.loading_list);
+        AnimationDrawable ani = (AnimationDrawable)aniView.getBackground();
+        ani.start();
+        loadingDialog .show();
+    }
+
+    public void loadingOff(){
+        loadingDialog.dismiss();
     }
 }

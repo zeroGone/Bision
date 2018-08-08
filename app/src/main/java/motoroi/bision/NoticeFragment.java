@@ -40,6 +40,7 @@ public class NoticeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mainView.loadingOn(getActivity());
         ViewGroup viewGroup = (ViewGroup)inflater.inflate(R.layout.fragment_notice,container,false);
         textView=viewGroup.findViewById(R.id.notice_contents);
         textView.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
@@ -57,6 +58,7 @@ public class NoticeFragment extends Fragment {
         });
 
 
+        mainView.loadingOff();
         return viewGroup;
     }
 }
