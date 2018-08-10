@@ -66,8 +66,8 @@ public class MainFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_main, container, false);
-        mainView.loadingOn(getActivity());
         final ImageView[] ranking = {
                 viewGroup.findViewById(R.id.ranking1),
                 viewGroup.findViewById(R.id.ranking2),
@@ -178,19 +178,18 @@ public class MainFragment extends Fragment {
         for (int i = 0; i < rankingList.length; i++) {
             String path = rankingList[i].get("name").toString() + ".png";//랭킹에 있는 것들의 사진을 불러오기 위한 문자열 path
             StorageReference img = storage.child(path);//저장소에 path 이미지를 참조하는 객체 생성
-            Glide.with(MainFragment.super.getContext()).using(new FirebaseImageLoader()).load(img).override(400, 400).into(ranking[i]);
+            Glide.with(MainFragment.super.getContext()).using(new FirebaseImageLoader()).load(img).crossFade(0).override(400, 400).into(ranking[i]);
         }
 
         setDeadline();
 
-        mainView.loadingOff();
         return viewGroup;
     }
 
     private void setDeadline() {
         String path = deadlineList[deadlineCheck].get("name").toString() + ".png";//랭킹에 있는 것들의 사진을 불러오기 위한 문자열 path
         StorageReference img = storage.child(path);//저장소에 path 이미지를 참조하는 객체 생성
-        Glide.with(MainFragment.super.getContext()).using(new FirebaseImageLoader()).load(img).override(500, 500).into(deadlineImageView);
+        Glide.with(MainFragment.super.getContext()).using(new FirebaseImageLoader()).load(img).crossFade(0).override(500, 500).into(deadlineImageView);
 
         deadlineName.setText(deadlineList[deadlineCheck].get("name").toString());
         Date deadlineDay = (Date) deadlineList[deadlineCheck].get("deadline");

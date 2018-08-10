@@ -1,8 +1,10 @@
 package motoroi.bision;
 
 import android.app.Activity;
+import android.app.Application;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -50,8 +52,10 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
         return allintrolist;
     }
     private Dialog loadingDialog;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        loadingOn(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_view);
         Toolbar toolbar =findViewById(R.id.toolbar);
@@ -108,6 +112,7 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
                             break;
                         }
                     }
+                    loadingOff();
                 }//리스트 셋팅 알고리즘 끝
 
                 //메인프래그먼트 소환
@@ -119,7 +124,6 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
 
             }
         });
-
     }
 
     @Override
@@ -157,8 +161,8 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public void onBackPressed(){
         if (drawer.isDrawerOpen(GravityCompat.START)) drawer.closeDrawer(GravityCompat.START);
-        else super.onBackPressed();
-    }
+        else  getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new MainFragment()).commit();
+    }//기기 뒤로가기버튼 눌렀을때 실행되는 메소드
 
     public void onFragmentChange(String index, Map map){
         if(index.equals("intro")){

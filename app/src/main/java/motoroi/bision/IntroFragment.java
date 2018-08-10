@@ -56,7 +56,6 @@ public class IntroFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup)inflater.inflate(R.layout.fragment_intro,container,false);
-        mainView.loadingOn(getActivity());
         enterButton = (Button)viewGroup.findViewById(R.id.enterButton);
         enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,9 +92,8 @@ public class IntroFragment extends Fragment {
 
         String path = map.get("name").toString() + ".png";//랭킹에 있는 것들의 사진을 불러오기 위한 문자열 path
         StorageReference img = storage.child(path);//저장소에 path 이미지를 참조하는 객체 생성
-        Glide.with(IntroFragment.super.getContext()).using(new FirebaseImageLoader()).load(img).override(600,600).into(ImageView);
+        Glide.with(IntroFragment.super.getContext()).using(new FirebaseImageLoader()).load(img).crossFade(0).override(600,600).into(ImageView);
 
-        mainView.loadingOff();
         return viewGroup;
     }
 }

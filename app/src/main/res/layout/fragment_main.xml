@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -13,18 +12,33 @@
         android:layout_alignParentTop="true">
 
 
+
+
+        <AutoCompleteTextView
+            android:id="@+id/searchBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="검색"
+            android:completionHint="검색어를 입력하세요"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:completionThreshold="1"
+            android:inputType="text"/>
+
+
         <TextView
             android:id="@+id/deadline_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="48dp"
             android:layout_marginStart="48dp"
-            android:layout_marginTop="58dp"
+            android:layout_marginTop="12dp"
             android:text="마감임박"
             android:textColor="@android:color/holo_red_dark"
-            android:textSize="30sp"
+            android:textSize="30dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/searchBar" />
 
         <ImageView
             android:id="@+id/deadline_image"
@@ -93,11 +107,12 @@
             android:layout_width="match_parent"
             android:layout_height="220dp"
             android:layout_marginTop="48dp"
-
+            android:layout_marginBottom="8dp"
             android:background="#e1e1e1"
             android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/deadline_image">
+            app:layout_constraintTop_toBottomOf="@+id/deadline_image"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <TextView
                 android:id="@+id/ranking"
@@ -163,21 +178,7 @@
             </HorizontalScrollView>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
 
-            <AutoCompleteTextView
-                android:id="@+id/searchBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="검색"
-                android:completionHint="검색어를 입력하세요"
-                android:completionThreshold="1"
-                android:inputType="text"/>
-
-        </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
 </RelativeLayout>
