@@ -28,7 +28,7 @@
             <ImageView
                 android:id="@+id/intro_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="200dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -48,7 +48,7 @@
                         android:id="@+id/imageView2"
                         android:scaleType="fitXY"
                         android:layout_width="match_parent"
-                        android:layout_height="22dp"
+                        android:layout_height="30dp"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
                         app:srcCompat="@drawable/intro_line" />
@@ -58,6 +58,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
+                        android:textSize="20sp"
                         android:text="전시회이름"
                         android:textStyle="bold" />
 

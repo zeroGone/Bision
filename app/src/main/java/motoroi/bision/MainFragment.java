@@ -161,7 +161,7 @@ public class MainFragment extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (deadlineCheck != 2) deadlineCheck++;
+                if (deadlineCheck != 0) deadlineCheck--;
                 setDeadline();
             }
         });
@@ -169,7 +169,7 @@ public class MainFragment extends Fragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (deadlineCheck != 0) deadlineCheck--;
+                if (deadlineCheck != 2) deadlineCheck++;
                 setDeadline();
             }
         });

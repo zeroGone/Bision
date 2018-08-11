@@ -10,28 +10,29 @@
 
 
         <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:id="@+id/question_image"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
             android:src="@drawable/question_title"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/checkbox"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/checkbox"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
+            android:layout_height="0dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/question_image">
 
             <CheckBox
                 android:id="@+id/checkBox1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="어플사용 문의" />
+                android:text="어플관련" />
 
             <CheckBox
                 android:id="@+id/checkBox2"
@@ -43,64 +44,61 @@
                 android:id="@+id/checkBox3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="유형2"/>
+                android:text="광고문의"/>
 
-            <CheckBox
-                android:id="@+id/checkBox4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="유형3" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/question_linear"
             android:layout_width="300dp"
-            android:layout_height="350dp"
-            android:orientation="vertical"
+            android:layout_height="0dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/checkbox"
-            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
-            >
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/sendbutton"
+            app:layout_constraintTop_toBottomOf="@id/checkbox">
 
             <TextView
                 android:id="@+id/textView15"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
                 android:text="제목" />
 
             <EditText
                 android:id="@+id/question_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:hint="너무어렵다" />
+                android:hint="너무어렵다"
+                android:inputType="text" />
 
             <TextView
                 android:id="@+id/textView14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
                 android:text="내용" />
 
             <EditText
                 android:id="@+id/question_contents"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:hint="죽을것같군"
                 android:inputType="textMultiLine"
-                android:scrollbars="vertical"
-                android:hint="죽을것같군" />
+                android:gravity="top"
+                android:scrollbars="vertical" />
         </LinearLayout>
 
         <Button
             android:id="@+id/sendbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:text="제출"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/question_linear" />
 
     </android.support.constraint.ConstraintLayout>
 </RelativeLayout>

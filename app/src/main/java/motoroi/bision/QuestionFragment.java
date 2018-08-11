@@ -39,7 +39,6 @@ public class QuestionFragment extends Fragment {
                 viewGroup.findViewById(R.id.checkBox1),
                 viewGroup.findViewById(R.id.checkBox2),
                 viewGroup.findViewById(R.id.checkBox3),
-                viewGroup.findViewById(R.id.checkBox4)
         };
         for(int i=0; i<checkBoxes.length; i++){
             final int check = i;

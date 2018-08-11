@@ -1,10 +1,7 @@
 package motoroi.bision;
 
 import android.app.Activity;
-import android.app.Application;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -16,25 +13,21 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ImageView;
-import android.widget.ListView;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 public class MainView extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DrawerLayout drawer;
     private FirebaseFirestore db;
@@ -68,9 +61,8 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
         toggle.syncState();
 
         NavigationView navView = findViewById(R.id.nav_view);
-        navView.getMenu().findItem(R.id.menu_settings_sound).setActionView(R.layout.nav_settings);
-        navView.getMenu().findItem(R.id.menu_settings_vibration).setActionView(R.layout.nav_settings);
         navView.setNavigationItemSelectedListener(this);
+
         db= FirebaseFirestore.getInstance();
         db.collection("Bision").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -152,8 +144,7 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
                 getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new HelpFragment()).commit();
                 break;
         }
-        if(item.getItemId()==R.id.menu_settings_sound||item.getItemId()==R.id.menu_settings_vibration);
-        else drawer.closeDrawer(GravityCompat.START);
+        drawer.closeDrawer(GravityCompat.START);
 
         return true;
     }

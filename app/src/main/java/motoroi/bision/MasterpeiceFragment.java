@@ -54,10 +54,15 @@ public class MasterpeiceFragment extends Fragment implements BeaconConsumer{
     Runnable current = new Runnable() {
         @Override
         public void run() {
-            musicCurrentTime.setText(simpleDateFormat.format(player.getCurrentPosition()));
-            musicCurrentTime.post(current);
+            try{
+                musicCurrentTime.setText(simpleDateFormat.format(player.getCurrentPosition()));
+                musicCurrentTime.post(current);
+            }catch (IllegalStateException e){
+                handler.removeCallbacks(this);
+            }
         }
     };
+    Handler handler = new Handler();
 
     BeaconManager beaconManager;
     private List<Beacon> beaconList = new ArrayList<>();
@@ -70,9 +75,9 @@ public class MasterpeiceFragment extends Fragment implements BeaconConsumer{
 
     @Override
     public void onDetach(){
-        super.onDetach();
         player.release();//플레이어 해제
         mainView = null;
+        super.onDetach();
     }
 
     @Nullable
@@ -216,17 +221,20 @@ public class MasterpeiceFragment extends Fragment implements BeaconConsumer{
     }
 
     //뮤직 컨트롤러를 위한 쓰레드 메소드
-    public void Thread(){
+    public void Thread() {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 while(player.isPlaying()) {
                     try {
                         Thread.sleep(1000);
+                        controller.setProgress(player.getCurrentPosition());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
+                    } catch (IllegalStateException e){
+                        handler.removeCallbacks(this);
+                        break;
                     }
-                    controller.setProgress(player.getCurrentPosition());
                 }
             }
         };
