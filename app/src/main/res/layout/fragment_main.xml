@@ -29,7 +29,7 @@
 
         <TextView
             android:id="@+id/deadline_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="48dp"
             android:layout_marginStart="48dp"
@@ -123,7 +123,7 @@
 
             <TextView
                 android:id="@+id/ranking"
-                android:layout_width="125dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="32dp"
                 android:layout_marginStart="32dp"

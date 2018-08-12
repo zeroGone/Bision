@@ -60,7 +60,7 @@ public class IntroFragment extends Fragment {
         enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainView.onFragmentChange("masterpeice",null);
+                mainView.onFragmentChange("masterpeice",map);
             }
         });
 

@@ -13,11 +13,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ImageView;
+
+import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -160,7 +163,19 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
             IntroFragment introFragment = new IntroFragment();
             introFragment.setMap(map);
             getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,introFragment).commit();
-        } else if(index.equals("masterpeice")) getSupportFragmentManager().beginTransaction().replace(R.id.frag_container, new MasterpeiceFragment()).commit();
+        } else if(index.equals("masterpeice")) {
+            MasterpeiceFragment masterpeiceFragment = new MasterpeiceFragment();
+            for(int i=0; i<allList.size(); i++){
+                Map temp = (Map)allList.get(i).get("intro");
+                if(map.get("name").equals(temp.get("name"))){
+                    map = (Map)allList.get(i).get("masterpeice");
+                    break;
+                }
+            }
+            masterpeiceFragment.setMap(map);
+            SystemRequirementsChecker.checkWithDefaultDialogs(this);
+            getSupportFragmentManager().beginTransaction().replace(R.id.frag_container, masterpeiceFragment).commit();
+        }
     }
 
     public void dbUpdate(Map map){

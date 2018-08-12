@@ -1,18 +1,12 @@
 package motoroi.bision;
 
-import android.Manifest;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,32 +18,31 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.estimote.coresdk.observation.region.Region;
+import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
+import com.estimote.coresdk.service.BeaconManager;
+import com.estimote.internal_plugins_api.scanning.Beacon;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import org.altbeacon.beacon.Beacon;
-import org.altbeacon.beacon.BeaconConsumer;
-import org.altbeacon.beacon.BeaconManager;
-import org.altbeacon.beacon.BeaconParser;
-import org.altbeacon.beacon.RangeNotifier;
-import org.altbeacon.beacon.Region;
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
-public class MasterpeiceFragment extends Fragment implements BeaconConsumer{
+public class MasterpeiceFragment extends Fragment{
     MainView mainView;
-    TextView contents;
-    MediaPlayer player = new MediaPlayer();
+    TextView masterpieceName;
+    TextView masterpieceexplain;
+    MediaPlayer player;
     SeekBar controller;
     TextView musicCurrentTime;
+    TextView musicSize;
+    int check;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss");
     Runnable current = new Runnable() {
         @Override
@@ -63,9 +56,9 @@ public class MasterpeiceFragment extends Fragment implements BeaconConsumer{
         }
     };
     Handler handler = new Handler();
-
-    BeaconManager beaconManager;
-    private List<Beacon> beaconList = new ArrayList<>();
+    private final String myUUID = "E2C56DB5-DFFB-48D2-B060-D0F5A71096E0";
+    private BeaconManager beaconManager;
+    private Map map;
 
     @Override
     public void onAttach(Context context){
@@ -80,15 +73,20 @@ public class MasterpeiceFragment extends Fragment implements BeaconConsumer{
         super.onDetach();
     }
 
+    protected void setMap(Map map){
+        this.map=map;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mainView.loadingOn(getActivity());
         ViewGroup viewGroup = (ViewGroup)inflater.inflate(R.layout.fragment_masterpeice,container,false);
         ImageButton mapButton = (ImageButton)viewGroup.findViewById(R.id.mapButton);
         final ImageView mapView = (ImageView)viewGroup.findViewById(R.id.mapView);
         final LinearLayout mainIntro = (LinearLayout)viewGroup.findViewById(R.id.main_intro);
-        contents = (TextView) viewGroup.findViewById(R.id.masterpeice_contents);
+        masterpieceexplain = (TextView) viewGroup.findViewById(R.id.masterpiece_explain);
+        masterpieceName = (TextView) viewGroup.findViewById(R.id.masterpiece_name);
+        check=0;
 
         mapButton.setOnClickListener(new View.OnClickListener() {
             int check = 0;
@@ -107,12 +105,13 @@ public class MasterpeiceFragment extends Fragment implements BeaconConsumer{
             }
         });
 
+        player= new MediaPlayer();
         ImageButton playButton = (ImageButton)viewGroup.findViewById(R.id.play_button);//재생버튼
         ImageButton stopButton = (ImageButton)viewGroup.findViewById(R.id.stop_button);//정지버튼
         ImageButton rewindButton = (ImageButton)viewGroup.findViewById(R.id.rewind_button);//되감기버튼
         ImageButton forwardButton = (ImageButton)viewGroup.findViewById(R.id.forward_button);//빨리감기버튼
         controller = (SeekBar)viewGroup.findViewById(R.id.music_controller);//재생컨트롤러
-        final TextView musicSize = (TextView)viewGroup.findViewById(R.id.music_size);//음악 총시간
+        musicSize = (TextView)viewGroup.findViewById(R.id.music_size);//음악 총시간
         musicCurrentTime = (TextView)viewGroup.findViewById(R.id.music_current);//현재재생시간
         //재생버튼 클릭설정
         playButton.setOnClickListener(new View.OnClickListener() {
@@ -145,22 +144,7 @@ public class MasterpeiceFragment extends Fragment implements BeaconConsumer{
             }
         });
 
-        StorageReference mp3 = FirebaseStorage.getInstance().getReference().child("mp3").child("뚜두뚜두.mp3");//디비에서 음악불러옴
-        mp3.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                try {
-                    player.setDataSource(task.getResult().toString());//uri로 받아서 셋팅
-                    player.prepare();
-                    controller.setMax(player.getDuration());//컨트롤러 길이 셋팅
-                    musicSize.setText(simpleDateFormat.format(player.getDuration()));
-                    musicCurrentTime.setText(simpleDateFormat.format(player.getCurrentPosition()));
-                    mainView.loadingOff();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+
 
         controller.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -176,49 +160,92 @@ public class MasterpeiceFragment extends Fragment implements BeaconConsumer{
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
+        });//재생컨트롤러 만졌을때 실행되는 메소드
+
+        //비콘매니저 객체 생성
+        beaconManager= new BeaconManager(getContext());
+        beaconManager.setBackgroundScanPeriod(2000,5000);
+        beaconManager.setRegionExitExpiration(2000);
+        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
+            @Override
+            public void onServiceReady() {
+                beaconManager.startRanging(new BeaconRegion("Beacons",UUID.fromString(myUUID),null,null));
+                beaconManager.startMonitoring(new BeaconRegion("Beacons",UUID.fromString(myUUID),null,null));
+            }
         });
 
+        beaconManager.setRangingListener(new BeaconManager.BeaconRangingListener() {
+            @Override
+            public void onBeaconsDiscovered(BeaconRegion beaconRegion, List<com.estimote.coresdk.recognition.packets.Beacon> beacons) {
+                if(beacons.size()!=0){
+                    com.estimote.coresdk.recognition.packets.Beacon beacon = beacons.get(0);
+                    if(check!=beacon.getMajor()) {
+                        check=beacon.getMajor();
+                        masterpieceSetting(beacon.getMajor());
+                    }
 
-//        ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},1);
-//        beaconManager = BeaconManager.getInstanceForApplication(this.getContext());
-//        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
-//        beaconManager.bind(this);
+                }
+            }
+        });
+//        beaconManager.setMonitoringListener(new BeaconManager.BeaconMonitoringListener() {
+//            @Override
+//            public void onEnteredRegion(BeaconRegion beaconRegion, List<com.estimote.coresdk.recognition.packets.Beacon> beacons) {
+//                Log.d(this.getClass().getName(),beaconRegion.getMajor()+"들어옴");
+//
+//            }
+//
+//            @Override
+//            public void onExitedRegion(BeaconRegion beaconRegion) {
+//                Log.d(this.getClass().getName(),beaconRegion.getMajor()+"나감");
+//                masterpieceexplain.setText("나감");
+//                masterpieceName.setText("null");
+//                player.stop();
+//            }
+//        });
 
         return viewGroup;
     }
 
-    @Override
-    public void onBeaconServiceConnect() {
-        beaconManager.addRangeNotifier(new RangeNotifier() {
-            @Override
-            public void didRangeBeaconsInRegion(Collection<Beacon> collection, Region region) {
-                if(collection.size()>0)
-                    Log.d(this.getClass().getName(),"비콘:"+collection.iterator().next().getId2());
+    private void masterpieceSetting(int num){
+        mainView.loadingOn(getActivity());
+
+        StorageReference mp3 = FirebaseStorage.getInstance().getReference().child("mp3");
+        String path = "";
+        if(num==1) path="뚜두뚜두.mp3";
+        else if(num==2) path="사랑을했다.mp3";
+
+
+        Map value = null;
+        Iterator iterator = map.keySet().iterator();
+        for(int i=0; i<map.size(); i++){
+            Map temp = (Map)map.get(iterator.next());
+            if(Integer.toString(num).equals(Long.toString((Long)temp.get("id")))) {
+                value = temp;
+                break;
             }
-        });
-        try {
-            beaconManager.startMonitoringBeaconsInRegion(new Region("myMonitoringUniqueId",null,null,null));
-        } catch (RemoteException e) {
-            e.printStackTrace();
         }
 
-    }
+        masterpieceName.setText(value.get("name").toString());
+        masterpieceexplain.setText(value.get("explain").toString());
 
-    @Override
-    public Context getApplicationContext() {
-        return this.getContext();
-    }
+        mp3.child(path).getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                try {
+                    player.reset();
+                    player.setDataSource(task.getResult().toString());//uri로 받아서 셋팅
+                    player.prepare();
+                    controller.setMax(player.getDuration());//컨트롤러 길이 셋팅
+                    musicSize.setText(simpleDateFormat.format(player.getDuration()));
+                    musicCurrentTime.setText(simpleDateFormat.format(player.getCurrentPosition()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
-    @Override
-    public void unbindService(ServiceConnection serviceConnection) {
-        super.onDestroy();
-        beaconManager.unbind(this);
-    }
-
-    @Override
-    public boolean bindService(Intent intent, ServiceConnection serviceConnection, int i) {
-        return false;
-    }
+        mainView.loadingOff();
+    }//화면세팅
 
     //뮤직 컨트롤러를 위한 쓰레드 메소드
     public void Thread() {
