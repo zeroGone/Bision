@@ -3,6 +3,7 @@ package motoroi.bision;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
+import android.app.ListFragment;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -134,7 +135,7 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
     public boolean onOptionsItemSelected(MenuItem menuItem){
             getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new MainFragment()).commit();
             return true;
-    }
+    }//홈버튼 실행메소드
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item){
@@ -148,6 +149,14 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
             case R.id.menu_help:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new HelpFragment()).addToBackStack(null).commit();
                 break;
+            case R.id.menu_list:
+                String[] strings = new String[allintrolist.size()];
+                for(int i=0; i<strings.length; i++){
+                    strings[i]=allintrolist.get(i).get("name").toString();
+                }
+                motoroi.bision.ListFragment listFragment= new motoroi.bision.ListFragment();
+                listFragment.setAllList(strings);
+                getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,listFragment).addToBackStack(null).commit();
         }
         drawer.closeDrawer(GravityCompat.START);
 
