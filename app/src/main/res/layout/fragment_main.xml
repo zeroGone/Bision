@@ -149,36 +149,31 @@
                         android:id="@+id/ranking1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="8dp"
-                        app:srcCompat="@drawable/ic_launcher_background" />
+                        android:padding="8dp" />
 
                     <ImageView
                         android:id="@+id/ranking2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="8dp"
-                        app:srcCompat="@drawable/ic_launcher_background" />
+                        android:padding="8dp"/>
 
                     <ImageView
                         android:id="@+id/ranking3"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="8dp"
-                        app:srcCompat="@drawable/ic_launcher_background" />
+                        android:padding="8dp"/>
 
                     <ImageView
                         android:id="@+id/ranking4"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="8dp"
-                        app:srcCompat="@drawable/ic_launcher_background" />
+                        android:padding="8dp"/>
 
                     <ImageView
                         android:id="@+id/ranking5"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="8dp"
-                        app:srcCompat="@drawable/ic_launcher_background" />
+                        android:padding="8dp"/>
 
                 </LinearLayout>
 

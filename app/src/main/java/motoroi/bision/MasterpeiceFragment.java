@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
-import com.estimote.coresdk.observation.region.Region;
 import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
 import com.estimote.coresdk.service.BeaconManager;
-import com.estimote.internal_plugins_api.scanning.Beacon;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
@@ -87,7 +83,6 @@ public class MasterpeiceFragment extends Fragment{
         masterpieceexplain = (TextView) viewGroup.findViewById(R.id.masterpiece_explain);
         masterpieceName = (TextView) viewGroup.findViewById(R.id.masterpiece_name);
         check=0;
-
         mapButton.setOnClickListener(new View.OnClickListener() {
             int check = 0;
             @Override
@@ -187,7 +182,7 @@ public class MasterpeiceFragment extends Fragment{
                 }
             }
         });
-//        beaconManager.setMonitoringListener(new BeaconManager.BeaconMonitoringListener() {
+        //        beaconManager.setMonitoringListener(new BeaconManager.BeaconMonitoringListener() {
 //            @Override
 //            public void onEnteredRegion(BeaconRegion beaconRegion, List<com.estimote.coresdk.recognition.packets.Beacon> beacons) {
 //                Log.d(this.getClass().getName(),beaconRegion.getMajor()+"들어옴");
@@ -224,7 +219,6 @@ public class MasterpeiceFragment extends Fragment{
                 break;
             }
         }
-
         masterpieceName.setText(value.get("name").toString());
         masterpieceexplain.setText(value.get("explain").toString());
 

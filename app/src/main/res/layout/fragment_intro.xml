@@ -55,6 +55,7 @@
 
                     <TextView
                         android:id="@+id/intro_name"
+                        android:fontFamily="@font/dxkpmj"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
@@ -69,29 +70,39 @@
 
             <TextView
                 android:id="@+id/intro_term"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/dxkpmj"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/intro_place"
+                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
+                android:fontFamily="@font/dxkpmj"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/intro_price"
+                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
+                android:fontFamily="@font/dxkpmj"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/intro_subject"
+                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/dxkpmj"
                 android:text="프로젝트는 과연 성공할것인가" />
 
             <TextView
                 android:id="@+id/intro_masterpeice"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fontFamily="@font/dxkpmj"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:text="모토로이" />
 

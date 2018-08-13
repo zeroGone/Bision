@@ -4,12 +4,9 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:textViewStyle">@style/FontTextView</item>
-        <item name="android:actionBarStyle">@style/FontToolbar</item>
     </style>
+
     <style name="FontTextView" parent="@android:style/TextAppearance.Widget.TextView">
-        <item name ="android:fontFamily">@font/ttf</item>
-    </style>
-    <style name="FontToolbar" parent="@android:style/Widget.DeviceDefault.ActionBar">
-        <item name ="android:fontFamily">@font/ttf</item>
+        <item name ="android:fontFamily">@font/the_light_blue_wind</item>
     </style>
 </resources>

@@ -2,6 +2,7 @@ package motoroi.bision;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.Fragment;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -60,6 +61,7 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
 
         drawer =findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        toggle.getDrawerArrowDrawable().setColor(Color.WHITE);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -138,13 +140,13 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
     public boolean onNavigationItemSelected(@NonNull MenuItem item){
         switch (item.getItemId()){
             case R.id.menu_question:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new QuestionFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new QuestionFragment()).addToBackStack(null).commit();
                 break;
             case R.id.menu_notice:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new NoticeFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new NoticeFragment()).addToBackStack(null).commit();
                 break;
             case R.id.menu_help:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new HelpFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new HelpFragment()).addToBackStack(null).commit();
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
@@ -155,26 +157,26 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public void onBackPressed(){
         if (drawer.isDrawerOpen(GravityCompat.START)) drawer.closeDrawer(GravityCompat.START);
-        else  getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new MainFragment()).commit();
+        else  getSupportFragmentManager().popBackStack();
     }//기기 뒤로가기버튼 눌렀을때 실행되는 메소드
 
     public void onFragmentChange(String index, Map map){
         if(index.equals("intro")){
             IntroFragment introFragment = new IntroFragment();
             introFragment.setMap(map);
-            getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,introFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,introFragment).addToBackStack(null).commit();
         } else if(index.equals("masterpeice")) {
             MasterpeiceFragment masterpeiceFragment = new MasterpeiceFragment();
             for(int i=0; i<allList.size(); i++){
                 Map temp = (Map)allList.get(i).get("intro");
                 if(map.get("name").equals(temp.get("name"))){
-                    map = (Map)allList.get(i).get("masterpeice");
+                    map = (Map)allList.get(i).get("masterpiece");
                     break;
                 }
             }
             masterpeiceFragment.setMap(map);
             SystemRequirementsChecker.checkWithDefaultDialogs(this);
-            getSupportFragmentManager().beginTransaction().replace(R.id.frag_container, masterpeiceFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frag_container, masterpeiceFragment).addToBackStack(null).commit();
         }
     }
 
