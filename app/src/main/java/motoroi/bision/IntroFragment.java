@@ -5,25 +5,36 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
+
 import java.util.Map;
 
-public class IntroFragment extends Fragment {
+public class IntroFragment extends Fragment{
     private TextView name;
     private TextView term;
     private TextView place;
@@ -52,6 +63,12 @@ public class IntroFragment extends Fragment {
         mainView = null;
     }
 
+    int check = 0;
+    SupportMapFragment supportMapFragment;
+
+    public SupportMapFragment getSupporMapFragment(){
+        return supportMapFragment;
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,7 +80,23 @@ public class IntroFragment extends Fragment {
                 mainView.onFragmentChange("masterpeice",map);
             }
         });
-
+        final LinearLayout introContainer = (LinearLayout)viewGroup.findViewById(R.id.intro_container);
+        ImageButton mapButton = (ImageButton)viewGroup.findViewById(R.id.mapButton2);
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(check==0) {
+                    introContainer.setVisibility(View.INVISIBLE);
+                    check=1;
+                }
+                else {
+                    introContainer.setVisibility(View.VISIBLE);
+                    check=0;
+                }
+            }
+        });
+        supportMapFragment = (SupportMapFragment)this.getChildFragmentManager().findFragmentById(R.id.map_view);
+        mainView.mapSet(supportMapFragment);
         ImageView=viewGroup.findViewById(R.id.intro_image);
         name=viewGroup.findViewById(R.id.intro_name);
         term=viewGroup.findViewById(R.id.intro_term);
@@ -92,7 +125,7 @@ public class IntroFragment extends Fragment {
 
         String path = map.get("name").toString() + ".png";//랭킹에 있는 것들의 사진을 불러오기 위한 문자열 path
         StorageReference img = storage.child(path);//저장소에 path 이미지를 참조하는 객체 생성
-        Glide.with(IntroFragment.super.getContext()).using(new FirebaseImageLoader()).load(img).crossFade(0).override(600,600).into(ImageView);
+        Glide.with(IntroFragment.super.getContext()).using(new FirebaseImageLoader()).load(img).crossFade(0).override(600,600).into(ImageView);;
 
         return viewGroup;
     }

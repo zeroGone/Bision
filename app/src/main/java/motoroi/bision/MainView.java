@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ListFragment;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
@@ -15,14 +16,29 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.BoringLayout;
+import android.text.Layout;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.Projection;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -32,8 +48,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.Inflater;
 
-public class MainView extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainView extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
     private DrawerLayout drawer;
     private FirebaseFirestore db;
     protected List<DocumentSnapshot> allList;
@@ -50,25 +67,36 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
         return allintrolist;
     }
     private Dialog loadingDialog;
+    SupportMapFragment mapFragment;
 
+    GoogleMap googleMap;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-        loadingOn(this);
         super.onCreate(savedInstanceState);
+
+
+
         setContentView(R.layout.activity_main_view);
+        loadingOn(this);
+
+        //툴바
         Toolbar toolbar =findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        //네비게이션드로어
         drawer =findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         toggle.getDrawerArrowDrawable().setColor(Color.WHITE);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navView = findViewById(R.id.nav_view);
         navView.setNavigationItemSelectedListener(this);
 
+
+
+
+        //데이터불러오기
         db= FirebaseFirestore.getInstance();
         db.collection("Bision").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -112,7 +140,6 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
                     }
                     loadingOff();
                 }//리스트 셋팅 알고리즘 끝
-
                 //메인프래그먼트 소환
                 if(savedInstanceState==null) getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new MainFragment()).commit();
             }
@@ -122,8 +149,9 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
 
             }
         });
-    }
 
+
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater menuInflater = getMenuInflater();
@@ -169,11 +197,17 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
         else  getSupportFragmentManager().popBackStack();
     }//기기 뒤로가기버튼 눌렀을때 실행되는 메소드
 
+    public void mapSet(SupportMapFragment supportMapFragment){
+        supportMapFragment.getMapAsync(this);
+    }
+
     public void onFragmentChange(String index, Map map){
         if(index.equals("intro")){
             IntroFragment introFragment = new IntroFragment();
             introFragment.setMap(map);
             getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,introFragment).addToBackStack(null).commit();
+//           Log.d(this.getClass().getName(),Integer.toString(introFragment.getMapFragment()));
+//            mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map_view);
         } else if(index.equals("masterpeice")) {
             MasterpeiceFragment masterpeiceFragment = new MasterpeiceFragment();
             for(int i=0; i<allList.size(); i++){
@@ -216,5 +250,21 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
 
     public void loadingOff(){
         loadingDialog.dismiss();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
+        LatLng SEOUL = new LatLng(37.4874699, 126.82575380000003);
+
+        MarkerOptions markerOptions = new MarkerOptions();
+
+        markerOptions.position(SEOUL);
+
+        markerOptions.title("성공회대");
+
+        googleMap.addMarker(markerOptions);
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL, 16));
     }
 }
