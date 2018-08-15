@@ -80,21 +80,6 @@ public class IntroFragment extends Fragment{
                 mainView.onFragmentChange("masterpeice",map);
             }
         });
-        final LinearLayout introContainer = (LinearLayout)viewGroup.findViewById(R.id.intro_container);
-        ImageButton mapButton = (ImageButton)viewGroup.findViewById(R.id.mapButton2);
-        mapButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(check==0) {
-                    introContainer.setVisibility(View.INVISIBLE);
-                    check=1;
-                }
-                else {
-                    introContainer.setVisibility(View.VISIBLE);
-                    check=0;
-                }
-            }
-        });
         supportMapFragment = (SupportMapFragment)this.getChildFragmentManager().findFragmentById(R.id.map_view);
         mainView.mapSet(supportMapFragment);
         ImageView=viewGroup.findViewById(R.id.intro_image);
