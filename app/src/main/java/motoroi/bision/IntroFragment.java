@@ -81,7 +81,8 @@ public class IntroFragment extends Fragment{
             }
         });
         supportMapFragment = (SupportMapFragment)this.getChildFragmentManager().findFragmentById(R.id.map_view);
-        mainView.mapSet(supportMapFragment);
+        mainView.mapSet(supportMapFragment,map.get("latitude").toString(),map.get("longitude").toString());
+
         ImageView=viewGroup.findViewById(R.id.intro_image);
         name=viewGroup.findViewById(R.id.intro_name);
         term=viewGroup.findViewById(R.id.intro_term);

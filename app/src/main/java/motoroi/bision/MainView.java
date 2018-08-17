@@ -67,8 +67,6 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
         return allintrolist;
     }
     private Dialog loadingDialog;
-    SupportMapFragment mapFragment;
-
     GoogleMap googleMap;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -197,17 +195,17 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
         else  getSupportFragmentManager().popBackStack();
     }//기기 뒤로가기버튼 눌렀을때 실행되는 메소드
 
-    public void mapSet(SupportMapFragment supportMapFragment){
+    public void mapSet(SupportMapFragment supportMapFragment,String latitude, String longitude){
         supportMapFragment.getMapAsync(this);
+        Log.d(latitude,longitude);
+        지역= new LatLng(Double.parseDouble(latitude),Double.parseDouble(longitude));
     }
-
+    LatLng 지역;
     public void onFragmentChange(String index, Map map){
         if(index.equals("intro")){
             IntroFragment introFragment = new IntroFragment();
             introFragment.setMap(map);
             getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,introFragment).addToBackStack(null).commit();
-//           Log.d(this.getClass().getName(),Integer.toString(introFragment.getMapFragment()));
-//            mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map_view);
         } else if(index.equals("masterpeice")) {
             MasterpeiceFragment masterpeiceFragment = new MasterpeiceFragment();
             for(int i=0; i<allList.size(); i++){
@@ -255,16 +253,15 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
-        LatLng SEOUL = new LatLng(37.4874699, 126.82575380000003);
 
         MarkerOptions markerOptions = new MarkerOptions();
 
-        markerOptions.position(SEOUL);
+        markerOptions.position(지역);
 
         markerOptions.title("성공회대");
 
         googleMap.addMarker(markerOptions);
 
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL, 16));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(지역, 16));
     }
 }
