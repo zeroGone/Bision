@@ -213,14 +213,12 @@ public class MasterpeiceFragment extends Fragment{
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 try {
-                    mainView.loadingOn(getActivity());
                     player.reset();
                     player.setDataSource(task.getResult().toString());//uri로 받아서 셋팅
                     player.prepare();
                     controller.setMax(player.getDuration());//컨트롤러 길이 셋팅
                     musicSize.setText(simpleDateFormat.format(player.getDuration()));
                     musicCurrentTime.setText(simpleDateFormat.format(player.getCurrentPosition()));
-                    mainView.loadingOff();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

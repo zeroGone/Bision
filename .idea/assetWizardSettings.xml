@@ -23,7 +23,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="76" />
+                                                <entry key="scalingPercent" value="78" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -37,6 +37,7 @@
                                       <entry key="foregroundImage" value="C:\Users\영곤\Desktop\bision_icon.png" />
                                       <entry key="legacyIconShape" value="CIRCLE" />
                                       <entry key="outputName" value="bision_icon" />
+                                      <entry key="previewDensity" value="XXHIGH" />
                                       <entry key="webIconShape" value="CIRCLE" />
                                     </map>
                                   </option>
