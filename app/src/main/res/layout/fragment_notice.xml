@@ -23,8 +23,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="30dp"
-                android:padding="100dp"
+                android:padding="50dp"
                 android:background="@android:color/transparent"
                 android:orientation="vertical">
 
@@ -33,6 +32,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
+                    android:layout_marginTop="50dp"
                     android:text="공지사항"
                     android:textSize="30sp" />
 
@@ -41,8 +41,8 @@
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="18sp"
-                    android:textStyle="italic"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/dxkpmj"
                     android:gravity="center_horizontal"/>
             </LinearLayout>
         </FrameLayout>

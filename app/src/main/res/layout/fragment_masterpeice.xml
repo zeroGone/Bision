@@ -32,15 +32,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="이름"
-                    android:textSize="20sp"/>
+                    android:textSize="20dp"/>
 
-                <TextView
-                    android:id="@+id/masterpiece_explain"
+                <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="100"
-                    android:gravity="center"
-                    android:text="작품에 스마트폰을 가까이 해주세요" />
+                    android:scrollbars="vertical"
+                    android:layout_weight="100">
+
+                    <TextView
+                        android:id="@+id/masterpiece_explain"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="15dp"
+                        android:fontFamily="@font/dxkpmj"
+                        android:gravity="center"
+                        android:text="작품에 스마트폰을 가까이 해주세요" />
+
+                </ScrollView>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"

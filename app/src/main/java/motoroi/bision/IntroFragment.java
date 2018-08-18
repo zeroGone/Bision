@@ -1,6 +1,7 @@
 package motoroi.bision;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -85,6 +86,7 @@ public class IntroFragment extends Fragment{
 
         ImageView=viewGroup.findViewById(R.id.intro_image);
         name=viewGroup.findViewById(R.id.intro_name);
+        name.setPaintFlags(name.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
         term=viewGroup.findViewById(R.id.intro_term);
         place=viewGroup.findViewById(R.id.intro_place);
         price=viewGroup.findViewById(R.id.intro_price);

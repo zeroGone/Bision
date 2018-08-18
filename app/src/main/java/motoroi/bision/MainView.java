@@ -66,8 +66,7 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
     protected ArrayList<Map<Object,Object>> getAllIntrolist(){
         return allintrolist;
     }
-    private Dialog loadingDialog;
-    GoogleMap googleMap;
+    protected GoogleMap googleMap;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,7 +158,7 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem){
-            getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new MainFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new MainFragment()).addToBackStack(null).commit();
             return true;
     }//홈버튼 실행메소드
 
@@ -192,15 +191,12 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public void onBackPressed(){
         if (drawer.isDrawerOpen(GravityCompat.START)) drawer.closeDrawer(GravityCompat.START);
-        else  getSupportFragmentManager().popBackStack();
+        else  {
+            getSupportFragmentManager().popBackStack();
+        }
     }//기기 뒤로가기버튼 눌렀을때 실행되는 메소드
 
-    public void mapSet(SupportMapFragment supportMapFragment,String latitude, String longitude){
-        supportMapFragment.getMapAsync(this);
-        Log.d(latitude,longitude);
-        지역= new LatLng(Double.parseDouble(latitude),Double.parseDouble(longitude));
-    }
-    LatLng 지역;
+
     public void onFragmentChange(String index, Map map){
         if(index.equals("intro")){
             IntroFragment introFragment = new IntroFragment();
@@ -234,6 +230,9 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
         db.collection("Bision").document(docName).update("intro",map);
     }
 
+    //로딩 다이얼로그
+    private Dialog loadingDialog;
+
     public void loadingOn(Activity activity){
         loadingDialog = new Dialog(activity);
         loadingDialog .getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -249,6 +248,15 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
     public void loadingOff(){
         loadingDialog.dismiss();
     }
+
+
+    public void mapSet(SupportMapFragment supportMapFragment,String latitude, String longitude){
+        supportMapFragment.getMapAsync(this);
+        Log.d(latitude,longitude);
+        지역= new LatLng(Double.parseDouble(latitude),Double.parseDouble(longitude));
+    }
+
+    protected LatLng 지역;
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

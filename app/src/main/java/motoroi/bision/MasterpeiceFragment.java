@@ -61,12 +61,17 @@ public class MasterpeiceFragment extends Fragment{
         super.onAttach(context);
         mainView = (MainView)getActivity();
     }
-
     @Override
     public void onDetach(){
         player.release();//플레이어 해제
         mainView = null;
         super.onDetach();
+    }
+
+    @Override
+    public void onDestroyView(){
+        player.release();
+        super.onDestroyView();
     }
 
     protected void setMap(Map map){
@@ -182,33 +187,15 @@ public class MasterpeiceFragment extends Fragment{
                 }
             }
         });
-        //        beaconManager.setMonitoringListener(new BeaconManager.BeaconMonitoringListener() {
-//            @Override
-//            public void onEnteredRegion(BeaconRegion beaconRegion, List<com.estimote.coresdk.recognition.packets.Beacon> beacons) {
-//                Log.d(this.getClass().getName(),beaconRegion.getMajor()+"들어옴");
-//
-//            }
-//
-//            @Override
-//            public void onExitedRegion(BeaconRegion beaconRegion) {
-//                Log.d(this.getClass().getName(),beaconRegion.getMajor()+"나감");
-//                masterpieceexplain.setText("나감");
-//                masterpieceName.setText("null");
-//                player.stop();
-//            }
-//        });
 
         return viewGroup;
     }
 
     private void masterpieceSetting(int num){
-        mainView.loadingOn(getActivity());
-
         StorageReference mp3 = FirebaseStorage.getInstance().getReference().child("mp3");
         String path = "";
         if(num==1) path="뚜두뚜두.mp3";
         else if(num==2) path="사랑을했다.mp3";
-
 
         Map value = null;
         Iterator iterator = map.keySet().iterator();
@@ -219,26 +206,27 @@ public class MasterpeiceFragment extends Fragment{
                 break;
             }
         }
+
         masterpieceName.setText(value.get("name").toString());
         masterpieceexplain.setText(value.get("explain").toString());
-
         mp3.child(path).getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 try {
+                    mainView.loadingOn(getActivity());
                     player.reset();
                     player.setDataSource(task.getResult().toString());//uri로 받아서 셋팅
                     player.prepare();
                     controller.setMax(player.getDuration());//컨트롤러 길이 셋팅
                     musicSize.setText(simpleDateFormat.format(player.getDuration()));
                     musicCurrentTime.setText(simpleDateFormat.format(player.getCurrentPosition()));
+                    mainView.loadingOff();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
 
-        mainView.loadingOff();
     }//화면세팅
 
     //뮤직 컨트롤러를 위한 쓰레드 메소드

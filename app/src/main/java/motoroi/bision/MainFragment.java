@@ -178,7 +178,7 @@ public class MainFragment extends Fragment {
         for (int i = 0; i < rankingList.length; i++) {
             String path = rankingList[i].get("name").toString() + ".png";//랭킹에 있는 것들의 사진을 불러오기 위한 문자열 path
             StorageReference img = storage.child(path);//저장소에 path 이미지를 참조하는 객체 생성
-            Glide.with(MainFragment.super.getContext()).using(new FirebaseImageLoader()).load(img).crossFade(0).override(400, 400).into(ranking[i]);
+            Glide.with(MainFragment.super.getContext()).using(new FirebaseImageLoader()).load(img).crossFade(0).override(500, 500).fitCenter().into(ranking[i]);
         }
 
         setDeadline();

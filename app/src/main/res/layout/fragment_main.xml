@@ -63,7 +63,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
             android:text="null"
-            android:textSize="22sp"
+            app:layout_constraintBottom_toTopOf="@+id/deadline_days"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/deadline_image"
             app:layout_constraintTop_toBottomOf="@+id/deadline_title" />
@@ -79,45 +79,45 @@
             android:layout_marginTop="12dp"
             android:text="null"
             android:textColor="@android:color/holo_red_light"
-            android:textSize="28sp"
+            android:textSize="28dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/deadline_button_layout"
             app:layout_constraintStart_toEndOf="@+id/deadline_image"
             app:layout_constraintTop_toBottomOf="@+id/deadline_name" />
 
-        <ImageButton
-            android:id="@+id/nextButton"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/deadline_button_layout"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="24dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/backButton"
+            app:layout_constraintStart_toEndOf="@id/deadline_image"
             app:layout_constraintTop_toBottomOf="@+id/deadline_days"
-            app:srcCompat="@drawable/ic_navigate_next" />
+            app:layout_constraintBottom_toTopOf="@+id/ranking_layout"
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/backButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
-            app:layout_constraintEnd_toStartOf="@+id/nextButton"
-            app:layout_constraintStart_toEndOf="@+id/deadline_image"
-            app:layout_constraintTop_toBottomOf="@+id/deadline_days"
-            app:srcCompat="@drawable/ic_navigate_before" />
+            <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_navigate_before" />
+
+            <ImageButton
+                android:id="@+id/nextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_navigate_next" />
+        </LinearLayout>
+
 
 
         <LinearLayout
             android:id="@+id/ranking_layout"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="200dp"
             android:layout_marginBottom="8dp"
             android:background="#e1e1e1"
             android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/deadline_button_layout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
 
@@ -127,14 +127,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="32dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="인기순위"
-                android:textSize="30sp" />
+                android:textSize="30dp" />
 
             <HorizontalScrollView
                 android:id="@+id/ranking_scroll"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.291"
