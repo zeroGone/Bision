@@ -70,11 +70,9 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
         setContentView(R.layout.activity_main_view);
-        loadingOn(this);
+
+        loadingOn();//로딩 애니메이션 띄움
 
         //툴바
         Toolbar toolbar =findViewById(R.id.toolbar);
@@ -89,9 +87,6 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
         toggle.syncState();
         NavigationView navView = findViewById(R.id.nav_view);
         navView.setNavigationItemSelectedListener(this);
-
-
-
 
         //데이터불러오기
         db= FirebaseFirestore.getInstance();
@@ -135,15 +130,17 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
                             break;
                         }
                     }
-                    loadingOff();
                 }//리스트 셋팅 알고리즘 끝
+
                 //메인프래그먼트 소환
                 if(savedInstanceState==null) getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new MainFragment()).commit();
+
+                loadingOff();//로딩 애니메이션 끔
             }
-        }).addOnFailureListener(new OnFailureListener() {
+        }).addOnFailureListener(new OnFailureListener() {//데이터 불러오기 실패했을때
             @Override
             public void onFailure(@NonNull Exception e) {
-
+                //암것도안함
             }
         });
 
@@ -230,24 +227,31 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
         db.collection("Bision").document(docName).update("intro",map);
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+    }
+
+
+
     //로딩 다이얼로그
     private Dialog loadingDialog;
-
-    public void loadingOn(Activity activity){
-        loadingDialog = new Dialog(activity);
-        loadingDialog .getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        loadingDialog .requestWindowFeature(Window.FEATURE_NO_TITLE);
-        loadingDialog .setContentView(R.layout.loading_dialog);
-        ImageView aniView = (ImageView)loadingDialog.findViewById(R.id.loadingView);
-        aniView.setBackgroundResource(R.drawable.loading_list);
-        AnimationDrawable ani = (AnimationDrawable)aniView.getBackground();
-        ani.start();
-        loadingDialog .show();
+    //로딩 다이얼로그 애니메이션 메소드
+    protected void loadingOn(){
+        loadingDialog = new Dialog(this);//다이얼로그 생성
+        loadingDialog .getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));//배경 무색으로
+        loadingDialog .requestWindowFeature(Window.FEATURE_NO_TITLE);//타이틀 없고
+        loadingDialog .setContentView(R.layout.loading_dialog);//뷰 내용 지정
+        ImageView aniView = (ImageView)loadingDialog.findViewById(R.id.loadingView);//이미지뷰 따오고
+        aniView.setBackgroundResource(R.drawable.loading_list);//이미지뷰 리소스 설정
+        AnimationDrawable ani = (AnimationDrawable)aniView.getBackground();//애니메이션 리소스 설정
+        ani.start();//애니메이션 시작
+        loadingDialog.show();//다이얼로그 보여주기
+    }
+    protected void loadingOff(){
+        loadingDialog.dismiss();//로딩 다이얼로그 끔
     }
 
-    public void loadingOff(){
-        loadingDialog.dismiss();
-    }
 
 
     public void mapSet(SupportMapFragment supportMapFragment,String latitude, String longitude){

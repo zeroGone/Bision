@@ -22,9 +22,9 @@ import org.w3c.dom.Document;
 import java.util.List;
 
 public class NoticeFragment extends Fragment {
-    MainView mainView;
-    TextView title;
-    TextView textView;
+    private MainView mainView;
+    private TextView textView;
+
     @Override
     public void onAttach(Context context){
         super.onAttach(context);
@@ -40,7 +40,7 @@ public class NoticeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mainView.loadingOn(getActivity());
+        mainView.loadingOn();
         ViewGroup viewGroup = (ViewGroup)inflater.inflate(R.layout.fragment_notice,container,false);
         textView=viewGroup.findViewById(R.id.notice_contents);
         textView.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
@@ -49,6 +49,7 @@ public class NoticeFragment extends Fragment {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 textView.setText(documentSnapshot.get("contents").toString());
+                mainView.loadingOff();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -56,9 +57,6 @@ public class NoticeFragment extends Fragment {
 
             }
         });
-
-
-        mainView.loadingOff();
         return viewGroup;
     }
 }
