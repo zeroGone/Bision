@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,14 +87,15 @@ public class IntroFragment extends Fragment{
 
         ImageView=viewGroup.findViewById(R.id.intro_image);
         name=viewGroup.findViewById(R.id.intro_name);
-        name.setPaintFlags(name.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+
+
         term=viewGroup.findViewById(R.id.intro_term);
         place=viewGroup.findViewById(R.id.intro_place);
         price=viewGroup.findViewById(R.id.intro_price);
         subject=viewGroup.findViewById(R.id.intro_subject);
         masterpeice=viewGroup.findViewById(R.id.intro_masterpeice);
 
-        name.setText(map.get("name").toString());
+        name.setPaintFlags(name.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
         if (map.get("price").toString().equals("0"))  price.setText("가격 : 무료");
         else  price.setText("가격 : "+map.get("price").toString()+" 원");
 
