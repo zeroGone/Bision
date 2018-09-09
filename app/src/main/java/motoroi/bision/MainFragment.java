@@ -1,12 +1,8 @@
 package motoroi.bision;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,7 +11,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
@@ -48,6 +43,7 @@ public class MainFragment extends Fragment {
     AutoCompleteTextView searchBar;
     ArrayList<String> arrayList;
     Map searchMap;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

@@ -87,8 +87,6 @@ public class IntroFragment extends Fragment{
 
         ImageView=viewGroup.findViewById(R.id.intro_image);
         name=viewGroup.findViewById(R.id.intro_name);
-
-
         term=viewGroup.findViewById(R.id.intro_term);
         place=viewGroup.findViewById(R.id.intro_place);
         price=viewGroup.findViewById(R.id.intro_price);
