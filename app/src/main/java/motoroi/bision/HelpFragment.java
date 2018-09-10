@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 public class HelpFragment extends Fragment {
-    MainView mainView;
+    private MainView mainView;
     @Override
     public void onAttach(Context context){
         super.onAttach(context);
