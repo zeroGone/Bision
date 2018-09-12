@@ -7,12 +7,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 
 public class ListFragment extends Fragment {
     private MainView mainView;
@@ -40,7 +38,7 @@ public class ListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_list, container, false);
 
-        recyclerView = (RecyclerView)viewGroup.findViewById(R.id.list_list);
+        recyclerView = viewGroup.findViewById(R.id.list_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new MyAdapter(allList));
 
@@ -52,6 +50,7 @@ public class ListFragment extends Fragment {
             allList=list;
         }
 
+        //fragment_list_view를 뷰홀더로 지정
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             TextView textView = (TextView)LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_list_view,parent,false);

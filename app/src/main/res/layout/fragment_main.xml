@@ -11,9 +11,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true">
 
-
-
-
         <AutoCompleteTextView
             android:id="@+id/searchBar"
             android:layout_width="match_parent"

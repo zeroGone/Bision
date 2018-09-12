@@ -1,7 +1,6 @@
 package motoroi.bision;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-public class QuestionFragment extends Fragment {
+public class QuestionFragment extends Fragment {//1:1문의 화면 코드
     private EditText title;
     private EditText contents;
     private CheckBox[] checkBoxes;

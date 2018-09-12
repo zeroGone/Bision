@@ -13,32 +13,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-public class HelpFragment extends Fragment {
-    private MainView mainView;
-    @Override
-    public void onAttach(Context context){
-        super.onAttach(context);
-        mainView = (MainView)getActivity();
-    }
-
-    @Override
-    public void onDetach(){
-        super.onDetach();
-        mainView = null;
-    }
+public class HelpFragment extends Fragment {//도움말 화면코드
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_help, container, false);
 
-        ViewPager viewPager = (ViewPager)viewGroup.findViewById(R.id.help_viewpager);
-        HelpViewAdapter helpViewAdapter = new HelpViewAdapter(getContext());
-        viewPager.setAdapter(helpViewAdapter);
+        ViewPager viewPager = viewGroup.findViewById(R.id.help_viewpager);//뷰페이저 객체 초기화
+        HelpViewAdapter helpViewAdapter = new HelpViewAdapter(getContext());//뷰페이저의 어댑터 객체
+        viewPager.setAdapter(helpViewAdapter);//뷰페이저 객체 어댑터 설정
         return viewGroup;
     }
 
-    public static class HelpViewAdapter extends PagerAdapter {
+    public static class HelpViewAdapter extends PagerAdapter {//어댑터
         private int[] images = {
                 R.drawable.help_image1,
                 R.drawable.help_image2,
@@ -64,7 +52,7 @@ public class HelpFragment extends Fragment {
         public Object instantiateItem(ViewGroup container, int position){
             inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View v = inflater.inflate(R.layout.help_layout,container,false);
-            ImageView imageView =(ImageView)v.findViewById(R.id.help_imageView);
+            ImageView imageView =v.findViewById(R.id.help_imageView);
             imageView.setImageResource(images[position]);
             container.addView(v);
             return v;
