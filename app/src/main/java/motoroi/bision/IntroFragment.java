@@ -46,8 +46,7 @@ public class IntroFragment extends Fragment{
     private Button enterButton;
     private ImageView ImageView;
     private Map map;
-    MainView mainView;
-    StorageReference storage = FirebaseStorage.getInstance().getReference();
+    private MainView mainView;
 
     protected void setMap(Map map){
         this.map=map;
@@ -65,24 +64,19 @@ public class IntroFragment extends Fragment{
         mainView = null;
     }
 
-    int check = 0;
-    SupportMapFragment supportMapFragment;
-
-    public SupportMapFragment getSupporMapFragment(){
-        return supportMapFragment;
-    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup)inflater.inflate(R.layout.fragment_intro,container,false);
-        enterButton = (Button)viewGroup.findViewById(R.id.enterButton);
+        enterButton = viewGroup.findViewById(R.id.enterButton);
         enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mainView.onFragmentChange("masterpeice",map);
             }
         });
-        supportMapFragment = (SupportMapFragment)this.getChildFragmentManager().findFragmentById(R.id.map_view);
+
+        SupportMapFragment supportMapFragment = (SupportMapFragment)this.getChildFragmentManager().findFragmentById(R.id.map_view);
         mainView.mapSet(supportMapFragment,map.get("latitude").toString(),map.get("longitude").toString());
 
         ImageView=viewGroup.findViewById(R.id.intro_image);
@@ -112,7 +106,7 @@ public class IntroFragment extends Fragment{
         }else term.setText(startDate+" 개관");
 
         String path = map.get("name").toString() + ".png";//랭킹에 있는 것들의 사진을 불러오기 위한 문자열 path
-        StorageReference img = storage.child(path);//저장소에 path 이미지를 참조하는 객체 생성
+        StorageReference img = MainFragment.storage.child(path);//저장소에 path 이미지를 참조하는 객체 생성
         Glide.with(IntroFragment.super.getContext()).using(new FirebaseImageLoader()).load(img).crossFade(0).override(600,600).into(ImageView);;
 
         return viewGroup;

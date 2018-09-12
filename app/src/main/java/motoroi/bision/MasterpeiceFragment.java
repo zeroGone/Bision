@@ -1,6 +1,5 @@
 package motoroi.bision;
 
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,15 +30,14 @@ import java.util.Map;
 import java.util.UUID;
 
 public class MasterpeiceFragment extends Fragment{
-    MainView mainView;
-    TextView masterpieceName;
-    TextView masterpieceexplain;
-    MediaPlayer player;
-    SeekBar controller;
-    TextView musicCurrentTime;
-    TextView musicSize;
-    int check;
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss");
+    private TextView masterpieceName;
+    private TextView masterpieceexplain;
+    private MediaPlayer player;
+    private SeekBar controller;
+    private TextView musicCurrentTime;
+    private TextView musicSize;
+
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss");
     Runnable current = new Runnable() {
         @Override
         public void run() {
@@ -57,20 +55,14 @@ public class MasterpeiceFragment extends Fragment{
     private Map map;
 
     @Override
-    public void onAttach(Context context){
-        super.onAttach(context);
-        mainView = (MainView)getActivity();
-    }
-    @Override
     public void onDetach(){
-        player.release();//플레이어 해제
-        mainView = null;
+        player.release();
         super.onDetach();
     }
 
     @Override
     public void onDestroyView(){
-        player.release();
+        player.release();//플레이어 해제
         super.onDestroyView();
     }
 
@@ -78,16 +70,18 @@ public class MasterpeiceFragment extends Fragment{
         this.map=map;
     }
 
+    private ImageView mapView;
+    private LinearLayout mainIntro;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup)inflater.inflate(R.layout.fragment_masterpeice,container,false);
-        ImageButton mapButton = (ImageButton)viewGroup.findViewById(R.id.mapButton);
-        final ImageView mapView = (ImageView)viewGroup.findViewById(R.id.mapView);
-        final LinearLayout mainIntro = (LinearLayout)viewGroup.findViewById(R.id.main_intro);
-        masterpieceexplain = (TextView) viewGroup.findViewById(R.id.masterpiece_explain);
-        masterpieceName = (TextView) viewGroup.findViewById(R.id.masterpiece_name);
-        check=0;
+        ImageButton mapButton = viewGroup.findViewById(R.id.mapButton);
+        mapView = viewGroup.findViewById(R.id.mapView);
+        mainIntro = viewGroup.findViewById(R.id.main_intro);
+        masterpieceexplain = viewGroup.findViewById(R.id.masterpiece_explain);
+        masterpieceName =  viewGroup.findViewById(R.id.masterpiece_name);
         mapButton.setOnClickListener(new View.OnClickListener() {
             int check = 0;
             @Override
@@ -106,13 +100,13 @@ public class MasterpeiceFragment extends Fragment{
         });
 
         player= new MediaPlayer();
-        ImageButton playButton = (ImageButton)viewGroup.findViewById(R.id.play_button);//재생버튼
-        ImageButton stopButton = (ImageButton)viewGroup.findViewById(R.id.stop_button);//정지버튼
-        ImageButton rewindButton = (ImageButton)viewGroup.findViewById(R.id.rewind_button);//되감기버튼
-        ImageButton forwardButton = (ImageButton)viewGroup.findViewById(R.id.forward_button);//빨리감기버튼
-        controller = (SeekBar)viewGroup.findViewById(R.id.music_controller);//재생컨트롤러
-        musicSize = (TextView)viewGroup.findViewById(R.id.music_size);//음악 총시간
-        musicCurrentTime = (TextView)viewGroup.findViewById(R.id.music_current);//현재재생시간
+        ImageButton playButton = viewGroup.findViewById(R.id.play_button);//재생버튼
+        ImageButton stopButton = viewGroup.findViewById(R.id.stop_button);//정지버튼
+        ImageButton rewindButton = viewGroup.findViewById(R.id.rewind_button);//되감기버튼
+        ImageButton forwardButton = viewGroup.findViewById(R.id.forward_button);//빨리감기버튼
+        controller = viewGroup.findViewById(R.id.music_controller);//재생컨트롤러
+        musicSize = viewGroup.findViewById(R.id.music_size);//음악 총시간
+        musicCurrentTime = viewGroup.findViewById(R.id.music_current);//현재재생시간
         //재생버튼 클릭설정
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,6 +171,7 @@ public class MasterpeiceFragment extends Fragment{
         beaconManager.setRangingListener(new BeaconManager.BeaconRangingListener() {
             @Override
             public void onBeaconsDiscovered(BeaconRegion beaconRegion, List<com.estimote.coresdk.recognition.packets.Beacon> beacons) {
+                int check = 0;
                 if(beacons.size()!=0){
                     com.estimote.coresdk.recognition.packets.Beacon beacon = beacons.get(0);
                     if(check!=beacon.getMajor()) {

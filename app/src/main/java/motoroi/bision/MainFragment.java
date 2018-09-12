@@ -28,29 +28,23 @@ import java.util.Date;
 import java.util.Map;
 
 public class MainFragment extends Fragment {
-    MainView mainView;
-    StorageReference storage = FirebaseStorage.getInstance().getReference();
-    Map<Object, Object>[] rankingList;//랭킹을 담을 Map배열
-    Map<Object, Object>[] deadlineList;//마감임박 리스트
-    ArrayList<Map<Object, Object>> allIntroList;
-    ImageButton nextButton;
-    ImageButton backButton;
-    ImageView deadlineImageView;
-    TextView deadlineName;
-    TextView deadlineDays;
-    int deadlineCheck = 0;
+    private MainView mainView;
+    private ImageView[] ranking;
+    private AutoCompleteTextView searchBar;
+    private ImageView deadlineImageView;
+    private TextView deadlineName;
+    private TextView deadlineDays;
+    private ImageButton nextButton;
+    private ImageButton backButton;
+    protected static StorageReference storage = FirebaseStorage.getInstance().getReference();
+    private ArrayList<String> arrayList;
+    private int deadlineCheck = 0;
     private int rankingCheck;
-    AutoCompleteTextView searchBar;
-    ArrayList<String> arrayList;
-    Map searchMap;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mainView = (MainView) getActivity();
-        allIntroList = mainView.getAllIntrolist();
-        deadlineList = mainView.getDeadlineList();
-        rankingList = mainView.getRankingList();
     }
 
     @Override
@@ -62,9 +56,8 @@ public class MainFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_main, container, false);
-        final ImageView[] ranking = {
+        ranking = new ImageView[]{
                 viewGroup.findViewById(R.id.ranking1),
                 viewGroup.findViewById(R.id.ranking2),
                 viewGroup.findViewById(R.id.ranking3),
@@ -77,20 +70,22 @@ public class MainFragment extends Fragment {
         deadlineDays = viewGroup.findViewById(R.id.deadline_days);
         nextButton = viewGroup.findViewById(R.id.nextButton);
         backButton = viewGroup.findViewById(R.id.backButton);
+
         arrayList = new ArrayList<String>();
-        for (int i = 0; i < allIntroList.size(); i++)
-            arrayList.add(allIntroList.get(i).get("name").toString());
+        for (int i = 0; i < MainView.allIntroList.size(); i++)
+            arrayList.add(MainView.allIntroList.get(i).get("name").toString());
 
         searchBar = viewGroup.findViewById(R.id.searchBar);
         searchBar.setOnKeyListener(new View.OnKeyListener() {
+            private Map searchMap;
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if((keyEvent.getAction()==KeyEvent.ACTION_DOWN&&i==KeyEvent.KEYCODE_ENTER)) {
                     String search = searchBar.getText().toString();
                     boolean searchCheck = false;
-                    for(i=0; i<allIntroList.size(); i++){
-                        if(allIntroList.get(i).containsValue(search)) {
-                            searchMap=allIntroList.get(i);
+                    for(i=0; i<MainView.allIntroList.size(); i++){
+                        if(MainView.allIntroList.get(i).containsValue(search)) {
+                            searchMap=MainView.allIntroList.get(i);
                             searchCheck=true;
                         }
                     }
@@ -101,7 +96,7 @@ public class MainFragment extends Fragment {
                         search += ".png";
                         LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                         View layout = inflater.inflate(R.layout.help_layout,null);
-                        ImageView imageView = (ImageView)layout.findViewById(R.id.help_imageView);
+                        ImageView imageView = layout.findViewById(R.id.help_imageView);
                         StorageReference img = storage.child(search);
                         Glide.with(getContext()).using(new FirebaseImageLoader()).load(img).override(600,600).into(imageView);
                         확인.setView(layout);
@@ -140,8 +135,8 @@ public class MainFragment extends Fragment {
                 int index = rankingCheck;
                 @Override
                 public void onClick(View view) {
-                    mainView.onFragmentChange("intro", rankingList[index]);
-                    mainView.dbUpdate(rankingList[index]);
+                    mainView.onFragmentChange("intro", MainView.rankingList[index]);
+                    mainView.dbUpdate(MainView.rankingList[index]);
                 }
             });
         }
@@ -149,8 +144,8 @@ public class MainFragment extends Fragment {
         deadlineImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainView.onFragmentChange("intro", deadlineList[deadlineCheck]);
-                mainView.dbUpdate(deadlineList[deadlineCheck]);
+                mainView.onFragmentChange("intro", MainView.deadlineList[deadlineCheck]);
+                mainView.dbUpdate(MainView.deadlineList[deadlineCheck]);
             }
         });
 
@@ -171,8 +166,8 @@ public class MainFragment extends Fragment {
         });
 
 
-        for (int i = 0; i < rankingList.length; i++) {
-            String path = rankingList[i].get("name").toString() + ".png";//랭킹에 있는 것들의 사진을 불러오기 위한 문자열 path
+        for (int i = 0; i < MainView.rankingList.length; i++) {
+            String path = MainView.rankingList[i].get("name").toString() + ".png";//랭킹에 있는 것들의 사진을 불러오기 위한 문자열 path
             StorageReference img = storage.child(path);//저장소에 path 이미지를 참조하는 객체 생성
             Glide.with(MainFragment.super.getContext()).using(new FirebaseImageLoader()).load(img).crossFade(0).override(500, 500).fitCenter().into(ranking[i]);
         }
@@ -183,12 +178,12 @@ public class MainFragment extends Fragment {
     }
 
     private void setDeadline() {
-        String path = deadlineList[deadlineCheck].get("name").toString() + ".png";//랭킹에 있는 것들의 사진을 불러오기 위한 문자열 path
+        String path = MainView.deadlineList[deadlineCheck].get("name").toString() + ".png";//랭킹에 있는 것들의 사진을 불러오기 위한 문자열 path
         StorageReference img = storage.child(path);//저장소에 path 이미지를 참조하는 객체 생성
         Glide.with(MainFragment.super.getContext()).using(new FirebaseImageLoader()).load(img).crossFade(0).override(500, 500).into(deadlineImageView);
 
-        deadlineName.setText(deadlineList[deadlineCheck].get("name").toString());
-        Date deadlineDay = (Date) deadlineList[deadlineCheck].get("deadline");
+        deadlineName.setText(MainView.deadlineList[deadlineCheck].get("name").toString());
+        Date deadlineDay = (Date) MainView.deadlineList[deadlineCheck].get("deadline");
         Date Today = new Date();//현재 날짜,시간 구한 객체
 
         Long dif = deadlineDay.getTime() - Today.getTime();

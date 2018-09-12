@@ -77,8 +77,8 @@ public class ListFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         for(int i=0; i<allList.length; i++){
-                            if(mTextView.getText().equals(mainView.allintrolist.get(i).get("name").toString()))
-                                mainView.onFragmentChange("intro",mainView.allintrolist.get(i));
+                            if(mTextView.getText().equals(MainView.allIntroList.get(i).get("name").toString()))
+                                mainView.onFragmentChange("intro",MainView.allIntroList.get(i));
                         }
                     }
                 });

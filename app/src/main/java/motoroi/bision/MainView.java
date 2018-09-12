@@ -25,8 +25,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -37,20 +39,12 @@ import java.util.Map;
 
 public class MainView extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
     private DrawerLayout drawer;
-    private FirebaseFirestore db;
-    protected List<DocumentSnapshot> allList;
-    protected ArrayList<Map<Object, Object>> allintrolist;
-    protected Map<Object,Object>[] rankingList = new Map[5];//랭킹을 담을 Map배열
-    protected Map<Object,Object>[] deadlineList = new Map[3];//마감임박 리스트
-    protected Map<Object,Object>[] getRankingList(){
-        return rankingList;
-    }
-    protected Map<Object,Object>[] getDeadlineList(){
-        return deadlineList;
-    }
-    protected ArrayList<Map<Object,Object>> getAllIntrolist(){
-        return allintrolist;
-    }
+    private static FirebaseFirestore db;
+    protected static List<DocumentSnapshot> allList;
+    protected static ArrayList<Map<Object, Object>> allIntroList;
+    protected static Map<Object,Object>[] rankingList = new Map[5];//랭킹을 담을 Map배열
+    protected static Map<Object,Object>[] deadlineList = new Map[3];//마감임박 리스트
+
     protected GoogleMap googleMap;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -80,13 +74,13 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
             public void onSuccess(QuerySnapshot documentSnapshots) {
                 allList = documentSnapshots.getDocuments();
 
-                allintrolist = new ArrayList<>();
+                allIntroList = new ArrayList<>();
 
                 for (int i = 0; i < allList.size(); i++)
-                    allintrolist.add((Map) allList.get(i).get("intro"));//introList의 intro 객체들을 다 받는다
+                    allIntroList.add((Map) allList.get(i).get("intro"));//introList의 intro 객체들을 다 받는다
 
-                for (int i = 0; i < allintrolist.size(); i++) {//셋팅 알고리즘
-                    Map<Object, Object> temp = allintrolist.get(i);//intro 객체 하나를 temp로 저장해서
+                for (int i = 0; i < allIntroList.size(); i++) {//셋팅 알고리즘
+                    Map<Object, Object> temp = allIntroList.get(i);//intro 객체 하나를 temp로 저장해서
                     int rank = Integer.parseInt(temp.get("ranking").toString());//객체의 랭킹을 저장
                     if (temp.get("deadline") != null) {//만약 마감날짜가 있으면
                         Date deadlineDate = (Date) temp.get("deadline");//마감날짜를 받아서
@@ -116,16 +110,18 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
                         }
                     }
                 }//리스트 셋팅 알고리즘 끝
-
-                //메인프래그먼트 소환
-                if(savedInstanceState==null) getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new MainFragment()).commit();
-
-                loadingOff();//로딩 애니메이션 끔
             }
         }).addOnFailureListener(new OnFailureListener() {//데이터 불러오기 실패했을때
             @Override
             public void onFailure(@NonNull Exception e) {
                 //암것도안함
+            }
+        }).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {//데이터 불러오기를 끝내면
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                //메인프래그먼트 소환
+                if(savedInstanceState==null) getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new MainFragment()).commit();
+                loadingOff();//로딩 애니메이션 끔
             }
         });
 
@@ -133,7 +129,11 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    protected void onStart(){
+        super.onStart();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){//메뉴 생성
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.toolbar_menu,menu);
         return true;
@@ -146,7 +146,7 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
     }//홈버튼 실행메소드
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item){
+    public boolean onNavigationItemSelected(@NonNull MenuItem item){//네비게이션 드로어 메뉴 선택했을때
         switch (item.getItemId()){
             case R.id.menu_question:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new QuestionFragment()).addToBackStack(null).commit();
@@ -157,10 +157,10 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
             case R.id.menu_help:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frag_container,new HelpFragment()).addToBackStack(null).commit();
                 break;
-            case R.id.menu_list:
-                String[] strings = new String[allintrolist.size()];
+            case R.id.menu_list://리스트 셋팅
+                String[] strings = new String[allIntroList.size()];
                 for(int i=0; i<strings.length; i++){
-                    strings[i]=allintrolist.get(i).get("name").toString();
+                    strings[i]=allIntroList.get(i).get("name").toString();
                 }
                 motoroi.bision.ListFragment listFragment= new motoroi.bision.ListFragment();
                 listFragment.setAllList(strings);
@@ -174,11 +174,8 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public void onBackPressed(){
         if (drawer.isDrawerOpen(GravityCompat.START)) drawer.closeDrawer(GravityCompat.START);
-        else  {
-            getSupportFragmentManager().popBackStack();
-        }
+        else getSupportFragmentManager().popBackStack();
     }//기기 뒤로가기버튼 눌렀을때 실행되는 메소드
-
 
     public void onFragmentChange(String index, Map map){
         if(index.equals("intro")){
@@ -200,7 +197,7 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
         }
     }
 
-    public void dbUpdate(Map map){
+    public static void dbUpdate(Map map){
         //1.파라미터 map이 들어있는 문서를 찾고
         String docName="";
         for(int i=0; i<allList.size(); i++){
@@ -237,8 +234,6 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
     protected void loadingOff(){
         loadingDialog.dismiss();//로딩 다이얼로그 끔
     }
-
-
 
     public void mapSet(SupportMapFragment supportMapFragment,String latitude, String longitude){
         supportMapFragment.getMapAsync(this);
