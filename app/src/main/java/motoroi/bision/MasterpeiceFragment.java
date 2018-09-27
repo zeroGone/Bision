@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StreamDownloadTask;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -168,14 +170,14 @@ public class MasterpeiceFragment extends Fragment{
             }
         });
 
+        beaconCheck=0;
         beaconManager.setRangingListener(new BeaconManager.BeaconRangingListener() {
             @Override
             public void onBeaconsDiscovered(BeaconRegion beaconRegion, List<com.estimote.coresdk.recognition.packets.Beacon> beacons) {
-                int check = 0;
                 if(beacons.size()!=0){
                     com.estimote.coresdk.recognition.packets.Beacon beacon = beacons.get(0);
-                    if(check!=beacon.getMajor()) {
-                        check=beacon.getMajor();
+                    if(beaconCheck!=beacon.getMajor()) {
+                        beaconCheck=beacon.getMajor();
                         masterpieceSetting(beacon.getMajor());
                     }
 
@@ -201,7 +203,6 @@ public class MasterpeiceFragment extends Fragment{
                 break;
             }
         }
-
         masterpieceName.setText(value.get("name").toString());
         masterpieceexplain.setText(value.get("explain").toString());
         mp3.child(path).getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
@@ -221,6 +222,8 @@ public class MasterpeiceFragment extends Fragment{
         });
 
     }//화면세팅
+
+    private int beaconCheck;
 
     //뮤직 컨트롤러를 위한 쓰레드 메소드
     public void Thread() {

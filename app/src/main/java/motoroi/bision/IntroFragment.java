@@ -74,6 +74,8 @@ public class IntroFragment extends Fragment{
         masterpeice=viewGroup.findViewById(R.id.intro_masterpeice);
 
         name.setPaintFlags(name.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+        name.setText(map.get("name").toString());
+
         if (map.get("price").toString().equals("0"))  price.setText("가격 : 무료");
         else  price.setText("가격 : "+map.get("price").toString()+" 원");
 

@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "357786831640-ma48l3p3v5lvjog61qqajlt4bvbasto2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "motoroi.bision",
+            "certificate_hash": "565a429baf881b962efd412ba8b1baa4d426ffa2"
+          }
+        },
+        {
           "client_id": "357786831640-gjq92bdm76b1fjolscogno1k44r6rj7n.apps.googleusercontent.com",
           "client_type": 3
         }

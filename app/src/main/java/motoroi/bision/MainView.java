@@ -46,6 +46,7 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
     protected static Map<Object,Object>[] deadlineList = new Map[3];//마감임박 리스트
 
     protected GoogleMap googleMap;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,11 +127,6 @@ public class MainView extends AppCompatActivity implements NavigationView.OnNavi
         });
 
 
-    }
-
-    @Override
-    protected void onStart(){
-        super.onStart();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){//메뉴 생성
